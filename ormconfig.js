@@ -1,4 +1,4 @@
-xconst { DBConfig } = require('./src/shared/config');
+const { DBConfig } = require('./src/shared/config');
 
 const {
   host,
