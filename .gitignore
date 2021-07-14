@@ -1,3 +1,9 @@
+# excludede files
 node_modules
 build
 coverage
+/src/shared/env/*
+
+# except the following files
+!src/shared/env/.env.test
+!src/shared/env/.env.sample
