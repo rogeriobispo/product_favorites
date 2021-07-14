@@ -11,7 +11,7 @@ const {
   cli,
 } = DBConfig;
 
-console.log(`Runging migration on enviroment: ${process.env.NODE_ENV}`);
+console.log(`Runging migration on enviroment: ${process.env.NODE_ENV}, database: ${database}`);
 
 module.exports = {
   type: 'postgres',
