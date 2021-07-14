@@ -7,12 +7,15 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-async-errors": "^3.1.1"
+    "express-async-errors": "^3.1.1",
+    "pg": "^8.6.0",
+    "typeorm": "^0.2.34"
   },
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir build/src --copy-files --include-dotfiles && cp package.json ./build && cp ormconfig.js ./build",
     "server": "ts-node-dev --inspect  --ignore-watch node_modules src/server/server.ts",
-    "test": "jest"
+    "test": "jest",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
