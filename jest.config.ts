@@ -174,6 +174,11 @@ export default {
 
   // A map from regular expressions to paths to transformers
   transform: { '\\.ts$': ['ts-jest'] },
+  moduleNameMapper: {
+    '^@shared/(.*)': '<rootDir>/src/shared/$1',
+    '^@config/(.*)': '<rootDir>/src/shared/config/$1',
+    '^@modules/(.*)': '<rootDir>/src/modules/$1',
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
