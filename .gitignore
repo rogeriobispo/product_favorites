@@ -3,6 +3,7 @@ node_modules
 build
 coverage
 /src/shared/env/*
+yarn-error.log
 
 # except the following files
 !src/shared/env/.env.test

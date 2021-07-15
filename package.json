@@ -8,7 +8,8 @@
     "server": "ts-node-dev -r  tsconfig-paths/register --inspect  --ignore-watch node_modules src/server/server.ts",
     "server-prod": "node src/server/server.js",
     "test": "jest",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "typeorm-prod": "./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
