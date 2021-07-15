@@ -20,6 +20,9 @@ class CreateCustomerService {
     email,
     password,
   }: IcreateCustomerDTO): Promise<Customer> {
+    if (!name || !email || !password)
+      throw new AppError('Name, Email, password are mandatory');
+
     const existsEmail = await this.customerRepository.findByEmail(email);
 
     if (existsEmail) throw new AppError('Email Already taken');

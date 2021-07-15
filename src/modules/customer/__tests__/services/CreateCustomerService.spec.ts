@@ -31,8 +31,8 @@ describe('CreateCustomerService', () => {
 
     it('should not create with duplicated email customer', async () => {
       const customerData = {
-        name: 'JohnDoe2',
-        email: 'john@doe.com',
+        name: 'JohnDoe4',
+        email: 'john@doe4.com',
         password: 'password',
       };
 

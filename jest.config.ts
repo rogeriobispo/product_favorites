@@ -176,6 +176,7 @@ export default {
   transform: { '\\.ts$': ['ts-jest'] },
   moduleNameMapper: {
     '^@shared/(.*)': '<rootDir>/src/shared/$1',
+    '^@server/(.*)': '<rootDir>/src/server/$1',
     '^@config/(.*)': '<rootDir>/src/shared/config/$1',
     '^@modules/(.*)': '<rootDir>/src/modules/$1',
   },
