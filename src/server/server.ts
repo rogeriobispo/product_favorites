@@ -1,7 +1,8 @@
-import { ServerConfigs } from '../shared/config';
+import 'reflect-metadata';
+import { ServerConfigs } from '@shared/config';
 import app from './app';
+import '../shared/container';
 import '../database';
-import '@shared/container';
 
 app.listen(ServerConfigs.port, () => {
   console.warn(

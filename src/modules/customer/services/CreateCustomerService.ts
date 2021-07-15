@@ -34,6 +34,7 @@ class CreateCustomerService {
       email,
       password: hashedPassword,
     });
+
     return customerEntity;
   }
 }

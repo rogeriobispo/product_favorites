@@ -22,7 +22,7 @@ const DBConfig = {
   username: String(process.env.DB_USER),
   password: String(process.env.DB_PWD),
   database: String(process.env.DB_DATABASE),
-  entities: ['src/modules/**/typeorm/Entities/{*.ts,*.js}'],
+  entities: ['src/modules/**/typeorm/entities/{*.ts,*.js}'],
   migrations: ['./src/database/migrations/{*.ts,*.js}'],
   cli: {
     migrationsDir: './src/database/migrations',

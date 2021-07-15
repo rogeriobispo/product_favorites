@@ -3,12 +3,10 @@ import { container } from 'tsyringe';
 import CustomerCreateService from '../services/CreateCustomerService';
 
 class CustomersController {
-  async create(req: Request, res: Response) {
+  public async create(req: Request, res: Response) {
     const { name, email, password } = req.body;
 
-    const customerCreateService = await container.resolve(
-      CustomerCreateService,
-    );
+    const customerCreateService = container.resolve(CustomerCreateService);
 
     const customer = await customerCreateService.perform({
       name,
