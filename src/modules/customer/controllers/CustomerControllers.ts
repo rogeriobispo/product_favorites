@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CustomerCreateService from '../services/CreateCustomerService';
 import CustomeDeleteService from '../services/DeleteCustomerService';
+import ShowCustomerService from '../services/ShowCustomerService';
 
 class CustomersController {
   public async create(req: Request, res: Response) {
@@ -23,6 +24,20 @@ class CustomersController {
   }
 
   public async destroy(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const showCustomerService = await container.resolve(ShowCustomerService);
+
+    const customer = await showCustomerService.perform(id);
+
+    res.json({
+      id: customer.id,
+      name: customer.name,
+      email: customer.email,
+    });
+  }
+
+  public async show(req: Request, res: Response) {
     const { id } = req.params;
 
     const customeDeleteService = await container.resolve(CustomeDeleteService);
