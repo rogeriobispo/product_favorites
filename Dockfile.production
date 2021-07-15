@@ -1,0 +1,24 @@
+FROM node:14.15.1-alpine
+WORKDIR /app
+ADD . /app
+RUN npm install
+RUN npm run build
+
+FROM node:14.15.1-alpine
+ENV NODE_ENV production
+ENV PORT 2000
+
+ENV DB_HOST localhost
+ENV DB_PORT 5432
+ENV DB_USER postgres
+ENV DB_PWD postgres
+ENV DB_DATABASE products_api_${NODE_ENV}
+
+WORKDIR /app
+COPY --from=0 /app/build ./products-api
+RUN cd users-api && npm install --only=production
+WORKDIR /app/users-api
+RUN cp src/shared/env/.env.sample src/shared/env/.env.${NODE_ENV}
+RUN npm run typeorm:prod migration:run
+EXPOSE ${PORT}
+CMD npm run server-prod
