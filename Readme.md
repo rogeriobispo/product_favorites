@@ -15,9 +15,8 @@ Products api to favorite products
   2 -> yarn or npm install
   3 -> copy .env.sample to .env.${environment desired} Ex. .env.development
        Or you quem set all variables directly on the OS system
-  4 -> create database with the value of the env DB_DATABASE on postgres
-  5 -> run migrates with yarn typeorm migration:run
-  6 -> yarn server or npm run server will show "Listening on port xxxx env. yyyy"
+  4 -> yarn db:create will create database and run migrations
+  5 -> yarn server or npm run server will show "Listening on port xxxx env. yyyy"
 
 # how to build for production.
 

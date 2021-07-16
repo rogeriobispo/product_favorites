@@ -9,7 +9,9 @@
     "server-prod": "node src/server/server.js",
     "test": "jest",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "typeorm-prod": "./node_modules/typeorm/cli.js"
+    "typeorm-prod": "./node_modules/typeorm/cli.js",
+    "db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create",
+    "db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:drop"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -20,7 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
     "tsyringe": "^4.6.0",
-    "typeorm": "^0.2.34"
+    "typeorm": "^0.2.34",
+    "typeorm-extension": "^0.2.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
