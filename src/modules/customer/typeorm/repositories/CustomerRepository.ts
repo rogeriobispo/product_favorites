@@ -1,4 +1,4 @@
-import { getRepository, Repository, UpdateResult } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import Customer from '../entities/Customer';
 import ICustomerRepository from '../../interfaces/ICustomerRepository';
 import IcreateCustomerDTO from '../../dtos/ICustomerDTO';
