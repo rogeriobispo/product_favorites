@@ -60,6 +60,7 @@ class CustomersController {
       email,
       password,
     };
+
     const updateData = Object.entries(data).reduce(
       (a, [k, v]) => (v ? (Object.assign(a, { [k]: v }), a) : a),
       {},
