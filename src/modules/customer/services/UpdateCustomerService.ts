@@ -18,7 +18,7 @@ class UpdateCustomerService {
   async perform(
     customerId: string,
     customerData: IUpdateCustomerDTO,
-  ): Promise<Customer> {
+  ): Promise<Customer | undefined> {
     const customer = await this.customerRepository.findById(customerId);
 
     if (!customer) throw new AppError('Customer not found', 404);

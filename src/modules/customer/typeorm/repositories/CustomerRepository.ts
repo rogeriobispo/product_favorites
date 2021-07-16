@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, UpdateResult } from 'typeorm';
 import Customer from '../entities/Customer';
 import ICustomerRepository from '../../interfaces/ICustomerRepository';
 import IcreateCustomerDTO from '../../dtos/ICustomerDTO';
@@ -20,13 +20,11 @@ class CustomersRepository implements ICustomerRepository {
   async update(
     customerID: string,
     customerData: IUpdateCustomerDTO,
-  ): Promise<Customer> {
-    const updatedCustomer = await this.ormRepository.update(
-      { id: customerID },
-      customerData,
-    );
+  ): Promise<Customer | undefined> {
+    await this.ormRepository.update({ id: customerID }, customerData);
 
-    return updatedCustomer;
+    const customer = await this.ormRepository.findOne({ id: customerID });
+    return customer;
   }
 
   async delete(customer: Customer): Promise<void> {

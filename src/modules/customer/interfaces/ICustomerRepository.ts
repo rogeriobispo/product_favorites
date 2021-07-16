@@ -8,7 +8,7 @@ interface ICustomerRepository {
   update(
     customerID: string,
     customerData: IUpdateCustomerDTO,
-  ): Promise<Customer>;
+  ): Promise<Customer | undefined>;
 
   delete(customer: Customer): Promise<void>;
   findByEmail(email: string): Promise<Customer | undefined>;

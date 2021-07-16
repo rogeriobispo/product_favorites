@@ -33,9 +33,9 @@ describe('UpdateCustomerService', () => {
       updateData,
     );
 
-    expect(updatedCustomer.name).toEqual(updateData.name);
-    expect(updatedCustomer.email).toEqual(customerData.email);
-    expect(updatedCustomer.password).toEqual('hashed:45231');
+    expect(updatedCustomer?.name).toEqual(updateData.name);
+    expect(updatedCustomer?.email).toEqual(customerData.email);
+    expect(updatedCustomer?.password).toEqual('hashed:45231');
   });
 
   it('should throw error if customer not found', async () => {

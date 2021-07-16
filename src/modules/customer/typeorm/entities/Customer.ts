@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  Unique,
 } from 'typeorm';
 
 @Entity('customers')
