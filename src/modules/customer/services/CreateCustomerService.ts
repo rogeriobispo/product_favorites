@@ -3,7 +3,7 @@ import { injectable, inject } from 'tsyringe';
 import AppError from '@shared/errors/AppErrors';
 import IHashProvider from '@shared/container/hashProvider/models/IhashProvider';
 import ICustomerRepository from '../interfaces/ICustomerRepository';
-import IcreateCustomerDTO from '../dtos/IcreateCustomerDTO';
+import IcreateCustomerDTO from '../dtos/ICustomerDTO';
 import Customer from '../typeorm/entities/Customer';
 
 @injectable()

@@ -1,12 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
-import IcreateCustomerDTO from '../../dtos/IcreateCustomerDTO';
+import IUpdateCustomerDTO from '@modules/customer/dtos/IUpdateCustomerDTO';
+import ICustomerDTO from '../../dtos/ICustomerDTO';
 import ICustomerRepository from '../../interfaces/ICustomerRepository';
 import Customer from '../../typeorm/entities/Customer';
 
 const customers: Customer[] = [];
 
 class CustomerRepositoryMock implements ICustomerRepository {
-  async create(customerParams: IcreateCustomerDTO): Promise<Customer> {
+  async create(customerParams: ICustomerDTO): Promise<Customer> {
     const customer = new Customer();
 
     Object.assign(customer, {
@@ -20,12 +21,19 @@ class CustomerRepositoryMock implements ICustomerRepository {
     return customer;
   }
 
-  async update(customer: Customer): Promise<Customer> {
+  async update(
+    customerID: string,
+    customerDATA: IUpdateCustomerDTO,
+  ): Promise<Customer> {
+    const customer = customers.find(customerDB => customerDB.id === customerID);
+
     const index = customers.findIndex(
-      customerDB => customerDB.id === customer.id,
+      customerDB => customerDB.id === customerID,
     );
 
-    customers.splice(index, 1, customer);
+    const updatedCustomer = { ...customer, ...customerDATA } as Customer;
+
+    customers.splice(index, 1, updatedCustomer);
 
     return customers[index];
   }

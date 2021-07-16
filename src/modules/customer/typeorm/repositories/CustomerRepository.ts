@@ -1,7 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 import Customer from '../entities/Customer';
 import ICustomerRepository from '../../interfaces/ICustomerRepository';
-import IcreateCustomerDTO from '../../dtos/IcreateCustomerDTO';
+import IcreateCustomerDTO from '../../dtos/ICustomerDTO';
+import IUpdateCustomerDTO from '../../dtos/IUpdateCustomerDTO';
 
 class CustomersRepository implements ICustomerRepository {
   private ormRepository: Repository<Customer>;
@@ -16,8 +17,15 @@ class CustomersRepository implements ICustomerRepository {
     return customerCreated;
   }
 
-  async update(customer: Customer): Promise<Customer> {
-    const updatedCustomer = await this.ormRepository.save(customer);
+  async update(
+    customerID: string,
+    customerData: IUpdateCustomerDTO,
+  ): Promise<Customer> {
+    const updatedCustomer = await this.ormRepository.update(
+      { id: customerID },
+      customerData,
+    );
+
     return updatedCustomer;
   }
 

@@ -26,6 +26,7 @@
     "rules": {
       "class-methods-use-this": "off",
       "no-useless-constructor": "off",
+      "no-param-reassign": "off",
       "import/no-extraneous-dependencies": "off",
       "@typescript-eslint/no-useless-constructor": ["error"],
       "prettier/prettier": "error",
