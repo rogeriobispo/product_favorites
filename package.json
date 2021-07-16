@@ -10,7 +10,7 @@
     "test": "jest",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "typeorm-prod": "./node_modules/typeorm/cli.js",
-    "db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create",
+    "db:prepare": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create && npm run typeorm schema:drop && npm run typeorm migration:run",
     "db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:drop"
   },
   "dependencies": {
