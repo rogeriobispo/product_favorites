@@ -12,7 +12,7 @@ interface Response {
 @injectable()
 class AuthenticateCustomerService {
   constructor(
-    @inject('CustomerRepository')
+    @inject('AuthCustomerRepository')
     private customerRepository: ICustomerRepository,
     @inject('HashAuthProvider')
     private hashProvider: IHashProvider,

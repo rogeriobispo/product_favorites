@@ -23,7 +23,7 @@ class CreateFavoriteProductsService {
     private httpRequestProvider: IHttpRequestProvider,
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
-    @inject('CustomerRepository')
+    @inject('FavoriteCustomerRepository')
     private customerRepository: ICustomerRepository,
   ) {}
 

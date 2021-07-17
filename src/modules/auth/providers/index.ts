@@ -10,7 +10,7 @@ import IWebTokenProvider from './WebTokenProvider/model/IwebTokenProvider';
 import JsonWebTokenProvider from './WebTokenProvider/implementations/JsonWebTokenProvider';
 
 container.registerSingleton<ICustomerRepository>(
-  'CustomerRepository',
+  'AuthCustomerRepository',
   CustomerRepository,
 );
 
