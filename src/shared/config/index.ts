@@ -1,3 +1,4 @@
+import { RedisOptions } from 'ioredis';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
@@ -33,4 +34,26 @@ const JwtConfig = {
   expireIn: Number(process.env.JWT_EXPIRE_TIME),
 };
 
-export { ServerConfigs, DBConfig, JwtConfig };
+const ProductsApiConfig = {
+  url: String(process.env.PRODUCTS_API_URL),
+};
+
+interface ICacheConfig {
+  driver: 'redis';
+  config: {
+    redis: RedisOptions;
+  };
+}
+
+const RedisConfig = {
+  driver: 'redis',
+  config: {
+    redis: {
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
+      password: process.env.REDIS_PASS || '',
+    },
+  },
+} as ICacheConfig;
+
+export { ServerConfigs, DBConfig, JwtConfig, ProductsApiConfig, RedisConfig };
