@@ -24,6 +24,7 @@ describe('CreateFavoriteProductsService', () => {
       customerRepositoryMock,
     );
   });
+
   describe('perform', () => {
     it('when the product exist and is not in the list should favorite', async () => {
       const repoSpy = jest.spyOn(favoriteProductsRepositoryMock, 'create');

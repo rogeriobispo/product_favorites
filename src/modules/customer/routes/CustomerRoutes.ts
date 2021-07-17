@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import CustomerControllers from '../controllers/CustomerControllers';
 
-const userRouter = Router();
+const customerRouter = Router();
 
-userRouter.post('/', CustomerControllers.create);
-userRouter.delete('/:id', CustomerControllers.destroy);
-userRouter.get('/:id', CustomerControllers.show);
-userRouter.patch('/:id', CustomerControllers.update);
+customerRouter.post('/', CustomerControllers.create);
+customerRouter.delete('/:id', CustomerControllers.destroy);
+customerRouter.get('/:id', CustomerControllers.show);
+customerRouter.patch('/:id', CustomerControllers.update);
 
-export default userRouter;
+export default customerRouter;
