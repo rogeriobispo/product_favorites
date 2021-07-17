@@ -44,7 +44,10 @@ interface ICacheConfig {
     redis: RedisOptions;
   };
 }
-
+const RedisTTLConfig = {
+  type: String(process.env.REDIS_TTL_TYPE),
+  expireIn: Number(process.env.REDIS_TTL_EXPIRE_TIME),
+};
 const RedisConfig = {
   driver: 'redis',
   config: {
@@ -56,4 +59,11 @@ const RedisConfig = {
   },
 } as ICacheConfig;
 
-export { ServerConfigs, DBConfig, JwtConfig, ProductsApiConfig, RedisConfig };
+export {
+  ServerConfigs,
+  DBConfig,
+  JwtConfig,
+  ProductsApiConfig,
+  RedisConfig,
+  RedisTTLConfig,
+};

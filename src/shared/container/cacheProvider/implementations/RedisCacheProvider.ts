@@ -1,5 +1,5 @@
 import Redis, { Redis as RedisClient } from 'ioredis';
-import { RedisConfig } from '@config/index';
+import { RedisConfig, RedisTTLConfig } from '@config/index';
 import ICacheProvider from '../models/ICacheProvider';
 
 class RedisCacheProvider implements ICacheProvider {
@@ -10,7 +10,12 @@ class RedisCacheProvider implements ICacheProvider {
   }
 
   public async save<T>(key: string, value: T): Promise<void> {
-    this.client.set(key, JSON.stringify(value));
+    this.client.set(
+      key,
+      JSON.stringify(value),
+      RedisTTLConfig.type,
+      RedisTTLConfig.expireIn,
+    );
   }
 
   public async recover<T>(key: string): Promise<T | null> {
