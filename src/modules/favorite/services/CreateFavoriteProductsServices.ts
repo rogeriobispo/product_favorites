@@ -44,7 +44,10 @@ class CreateFavoriteProductsService {
 
     const product: ProductResponse =
       (await this.cacheProvider.recover(productId)) ||
-      (await this.httpRequestProvider.get(ProductsApiConfig.url, productId));
+      (await this.httpRequestProvider.get(
+        ProductsApiConfig.url,
+        `${ProductsApiConfig.showProductsPath}${productId}`.trim(),
+      ));
 
     if (!product) throw new AppError('Product not found', 404);
 

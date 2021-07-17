@@ -36,6 +36,7 @@ const JwtConfig = {
 
 const ProductsApiConfig = {
   url: String(process.env.PRODUCTS_API_URL),
+  showProductsPath: String(process.env.SHOW_PRODUCTS_PATH),
 };
 
 interface ICacheConfig {
