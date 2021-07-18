@@ -57,7 +57,6 @@ describe('CreateCustomer', () => {
         .send(customerData)
         .set('Accept', 'application/json');
       const expectedResponse = {
-        status: 'error',
         message: 'Email Already taken',
       };
 
@@ -90,7 +89,6 @@ describe('CreateCustomer', () => {
         .send(customerData.toString())
         .set('Accept', 'application/json');
       const expectedResponse = {
-        status: 'error',
         message: 'Name, Email, password are mandatory',
       };
 

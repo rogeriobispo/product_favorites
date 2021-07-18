@@ -65,6 +65,6 @@ describe('UpdateCustomerService', () => {
       .send({ name: 'John Doe' })
       .set('Accept', 'application/json');
 
-    expect(response.statusCode).toBe(404);
+    expect(response.statusCode).toBe(403);
   });
 });

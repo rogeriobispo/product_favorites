@@ -55,6 +55,6 @@ describe('ShowCustomer', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Accept', 'application/json');
 
-    expect(response.statusCode).toBe(404);
+    expect(response.statusCode).toBe(403);
   });
 });
