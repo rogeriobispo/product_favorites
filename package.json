@@ -7,7 +7,7 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir build/src --copy-files --include-dotfiles && cp package.json ./build && cp ormconfig.js ./build",
     "server": "ts-node-dev -r  tsconfig-paths/register --inspect  --ignore-watch node_modules src/server/server.ts",
     "server-prod": "node src/server/server.js",
-    "test": "jest",
+    "tests": "NODE_ENV=test && jest",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "typeorm-prod": "./node_modules/typeorm/cli.js",
     "db:prepare": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create && npm run typeorm schema:drop && npm run typeorm migration:run",
