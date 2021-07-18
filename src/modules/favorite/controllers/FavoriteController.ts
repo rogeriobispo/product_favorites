@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import createFavoriteProductsServices from '../services/CreateFavoriteProductsServices';
+import CreateFavoriteProductsServices from '../services/CreateFavoriteProductsServices';
+import RemoveFavoriteProductsService from '../services/RemoveFavoriteProductsService';
 
 class FavoriteController {
   public async create(req: Request, res: Response) {
@@ -8,11 +9,27 @@ class FavoriteController {
 
     const { id: productId } = req.params;
 
-    const authService = await container.resolve(createFavoriteProductsServices);
+    const createFavoriteService = await container.resolve(
+      CreateFavoriteProductsServices,
+    );
 
-    const product = await authService.perform(customerID, productId);
+    const product = await createFavoriteService.perform(customerID, productId);
 
     res.json(product);
+  }
+
+  public async destroy(req: Request, res: Response) {
+    const { id: customerID } = req.currentUser;
+
+    const { id: productId } = req.params;
+
+    const removeFavoriteService = await container.resolve(
+      RemoveFavoriteProductsService,
+    );
+
+    const product = await removeFavoriteService.perform(customerID, productId);
+
+    res.json();
   }
 }
 

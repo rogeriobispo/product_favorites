@@ -4,7 +4,6 @@ import request from 'supertest';
 import jwt from 'jsonwebtoken';
 
 import app from '@server/app';
-import AppError from '@shared/errors/AppErrors';
 import { JwtConfig } from '@config/index';
 import CreateFavoriteProductsService from '../../services/CreateFavoriteProductsServices';
 import FavoriteProductsRepositoryMock from '../mocks/FavoriteProductsRepositoriesMock';
