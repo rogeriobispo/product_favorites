@@ -74,7 +74,7 @@ yarn tests
   }
   ```
 
-- Update customer - with bearer token
+- Update customer - with bearer token only the logged customer
 
   ```
   patch/put /api/customer/:id
@@ -85,13 +85,13 @@ yarn tests
   }
   ```
 
-- Delete customer with bearer token
+- Delete customer with bearer token only the logged customer
 
   ```
   delete /api/customers/:id
   ```
 
-- Show customer with bearer token
+- Show customer with bearer token only the logged customer
 
   ```
   get /api/customers/:id
