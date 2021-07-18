@@ -1,6 +1,9 @@
 import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
-import ICacheProvider from '@shared/container/cacheProvider/models/ICacheProvider';
+
+interface ICacheProvider {
+  clear(): Promise<void>;
+}
 
 @injectable()
 class ClearCacheService {
