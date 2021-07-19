@@ -3,8 +3,7 @@ import AppError from '@shared/errors/AppErrors';
 import { injectable, inject } from 'tsyringe';
 import IHttpRequestProvider from '@shared/container/httpRequestProvider/models/IHttpRequestProvider';
 import ICacheProvider from '@shared/container/cacheProvider/models/ICacheProvider';
-import { ProductsApiConfig } from '@config/index';
-import { SimpleConsoleLogger } from 'typeorm';
+import { ProductsApiConfig } from '@shared/config';
 import ICustomerRepository from '../interface/ICustomerRepository';
 import IFavoriteProductsRespository from '../interface/IFavoriteProductsRespository';
 
