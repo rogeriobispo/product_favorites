@@ -73,7 +73,7 @@ describe('CreateFavoriteProducts', () => {
         image:
           'http://challenge-api.luizalabs.com/images/65050878-a949-1b0f-1b0a-df469d1e479a.jpg',
         brand: 'telltale games',
-        id: '65050878-a949-1b0f-1b0a-df469d1e479a',
+        id: '65050878-a949-1b0f-1b0a-df469d1e479a/',
         title: 'The Walking Dead - Season 2 para PS4',
       };
 

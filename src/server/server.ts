@@ -6,6 +6,6 @@ import '../database';
 
 app.listen(ServerConfigs.port, () => {
   console.warn(
-    `Listening on port ${ServerConfigs.port} env: ${ServerConfigs.env}`,
+    `Listening on port ${ServerConfigs.port} env: ${ServerConfigs.node_env}`,
   );
 });

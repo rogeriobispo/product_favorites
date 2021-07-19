@@ -3,12 +3,13 @@ import IHttpRequestProvider from '../models/IHttpRequestProvider';
 
 class AxiosHttpRequestProvider implements IHttpRequestProvider {
   async get<T>(url: string, path: string): Promise<T> {
-    const api = axios.create({
+    const api = await axios.create({
       baseURL: url,
+      timeout: 1000,
     });
 
-    const response: T = await api.get(path);
-    return response;
+    const response = await api.get(path);
+    return response.data as T;
   }
 }
 

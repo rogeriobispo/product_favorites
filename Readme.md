@@ -24,7 +24,7 @@ Api to favorite products
 - yarn db:prepare will create database and run migrations
 - yarn server or npm run server will show "Listening on port xxxx env. yyyy"
 
-# create database
+# create database and migrate
 
 - yarn db:prepare
 

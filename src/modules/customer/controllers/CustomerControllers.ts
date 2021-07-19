@@ -5,7 +5,6 @@ import CustomerCreateService from '../services/CreateCustomerService';
 import CustomeDeleteService from '../services/DeleteCustomerService';
 import ShowCustomerService from '../services/ShowCustomerService';
 import UpdateCustomerService from '../services/UpdateCustomerService';
-import IUpdateCustomerDTO from '../dtos/IUpdateCustomerDTO';
 
 class CustomersController {
   public async create(req: Request, res: Response) {
@@ -26,7 +25,7 @@ class CustomersController {
     });
   }
 
-  public async destroy(req: Request, res: Response) {
+  public async show(req: Request, res: Response) {
     const { id } = req.params;
 
     const showCustomerService = await container.resolve(ShowCustomerService);
@@ -40,7 +39,7 @@ class CustomersController {
     });
   }
 
-  public async show(req: Request, res: Response) {
+  public async destroy(req: Request, res: Response) {
     const { id } = req.params;
 
     const customeDeleteService = await container.resolve(CustomeDeleteService);
@@ -70,9 +69,13 @@ class CustomersController {
       UpdateCustomerService,
     );
 
-    const response = await customerUpdateService.perform(id, updateData);
+    const customer = await customerUpdateService.perform(id, updateData);
 
-    res.json(response);
+    res.json({
+      id: customer?.id,
+      name: customer?.name,
+      email: customer?.email,
+    });
   }
 }
 

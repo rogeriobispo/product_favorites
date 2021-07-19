@@ -50,11 +50,10 @@ describe('UpdateCustomerService', () => {
       .send(updateData)
       .set('Accept', 'application/json');
 
-    const { name, password, email } = response.body;
+    const { name, email } = response.body;
 
     expect(response.statusCode).toBe(200);
     expect(name).toBe(updateData.name);
-    expect(password).toBe('hashed:45231');
     expect(email).toBe('jhon@jhon.com.br');
   });
 

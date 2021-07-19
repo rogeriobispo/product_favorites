@@ -4,14 +4,16 @@ import { injectable, inject } from 'tsyringe';
 import IHttpRequestProvider from '@shared/container/httpRequestProvider/models/IHttpRequestProvider';
 import ICacheProvider from '@shared/container/cacheProvider/models/ICacheProvider';
 import { ProductsApiConfig } from '@config/index';
+import { SimpleConsoleLogger } from 'typeorm';
 import ICustomerRepository from '../interface/ICustomerRepository';
 import IFavoriteProductsRespository from '../interface/IFavoriteProductsRespository';
 
 interface ProductResponse {
-  id: string;
   price: number;
-  title: string;
   image: string;
+  brand: string;
+  id: string;
+  title: string;
 }
 
 @injectable()
@@ -41,15 +43,20 @@ class CreateFavoriteProductsService {
 
     if (customerFavorites.length >= customer.productFavoriteLimite)
       throw new AppError('Favorite limit reached', 422);
+    let product: ProductResponse;
 
-    const product: ProductResponse =
-      (await this.cacheProvider.recover(productId)) ||
-      (await this.httpRequestProvider.get(
-        ProductsApiConfig.url,
-        `${ProductsApiConfig.showProductsPath}${productId}`.trim(),
-      ));
+    try {
+      product =
+        (await this.cacheProvider.recover(productId)) ||
+        (await this.httpRequestProvider.get<ProductResponse>(
+          ProductsApiConfig.url,
+          `${ProductsApiConfig.showProductsPath}${productId}/`.trim(),
+        ));
 
-    if (!product) throw new AppError('Product not found', 404);
+      if (!product) throw new AppError('Product not found', 404);
+    } catch (e) {
+      throw new AppError(e, 404);
+    }
 
     await this.cacheProvider.save<ProductResponse>(productId, product);
 

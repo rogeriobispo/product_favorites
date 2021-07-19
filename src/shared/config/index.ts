@@ -14,7 +14,7 @@ dotenv.config({
 
 const ServerConfigs = {
   port: Number(process.env.PORT),
-  env: process.env.ENV,
+  node_env: process.env.NODE_ENV,
 };
 
 const DBConfig = {

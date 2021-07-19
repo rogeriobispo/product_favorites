@@ -15,7 +15,7 @@ class DeleteCustomerService {
 
     if (!customer) throw new AppError('Customer not found', 404);
 
-    this.customerRepository.delete(customer);
+    await this.customerRepository.delete(customer);
 
     return true;
   }
