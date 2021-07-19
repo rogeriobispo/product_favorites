@@ -10,7 +10,7 @@ Api to favorite products
 - yarn 1.22.10
 - npm 7.6.3
 
-# Storages
+# Dbs
 
 - postgress
 - redis
