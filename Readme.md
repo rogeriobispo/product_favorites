@@ -55,8 +55,8 @@ yarn tests
     ```
     post /api/login
     {
-      "name": "Rogerio bispo",
-      "email": "rogerio_pd@yahoo.com.br"
+      "email": "rogerio_pd@yahoo.com.br",
+      "password": "123456"
     }
     ```
 
