@@ -66,6 +66,21 @@ describe('UpdateCustomerService', () => {
     expect(email).toBe('jhon@jhon.com.br');
   });
 
+  it('should update customer with put', async () => {
+    const updateData = { name: 'Jane Doe Updated', password: '45231' };
+    const response = await request(app)
+      .put(`/api/customers/${customer.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(updateData)
+      .set('Accept', 'application/json');
+
+    const { name, email } = response.body;
+
+    expect(response.statusCode).toBe(200);
+    expect(name).toBe(updateData.name);
+    expect(email).toBe('jhon@jhon.com.br');
+  });
+
   it('should return not found', async () => {
     const customer = await customerRepository.create({
       name: 'JhonDoe',

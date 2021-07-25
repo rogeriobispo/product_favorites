@@ -55,8 +55,8 @@ yarn tests
     ```
     post /api/login
     {
-      "name": "Rogerio bispo",
-      "email": "rogerio_pd@yahoo.com.br"
+      "email": "rogerio_pd@yahoo.com.br",
+      "password": "123456"
     }
     ```
 
@@ -68,9 +68,9 @@ yarn tests
   post /api/customer
 
   {
-    "id": "cb476865-71bc-4efa-a387-71a256750559",
     "name": "Rogerio bispo",
     "email": "rogerio_pd@yahoo.com.br"
+    "password": "123456"
   }
   ```
 
@@ -82,6 +82,7 @@ yarn tests
   {
     "name": "Rogerio bispo",
     "email": "rogerio_pd@yahoo.com.br"
+    "password": "123456"
   }
   ```
 

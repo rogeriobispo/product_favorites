@@ -25,4 +25,11 @@ customerRouter.patch(
   CustomerControllers.update,
 );
 
+customerRouter.put(
+  '/:id',
+  AuthorizedEndPoint,
+  CustomerPermited,
+  CustomerControllers.update,
+);
+
 export default customerRouter;
