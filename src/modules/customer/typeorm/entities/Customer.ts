@@ -21,7 +21,7 @@ class Customers {
   @Column('varchar')
   password!: string;
 
-  @Column('int')
+  @Column('int', { default: 10 })
   productFavoriteLimite: number;
 
   @CreateDateColumn()

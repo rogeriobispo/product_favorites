@@ -5,16 +5,15 @@ import { JwtConfig } from '@config/index';
 import jwt from 'jsonwebtoken';
 
 import app from '@server/app';
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import connection from '../../../../database/testDB';
+
+import CustomerRepositoryMock from '../../typeorm/repositories/CustomerRepository';
 import UpdateCustomerService from '../../services/UpdateCustomerService';
 import HashProvider from '../mocks/HashProviderMock';
-import Customer from '../../typeorm/entities/Customer';
 
 let updateCustomerService: UpdateCustomerService;
 let customerRepository: CustomerRepositoryMock;
 let hashProvider: HashProvider;
-let customer: Customer;
-let token: string;
 
 describe('UpdateCustomerService', () => {
   beforeEach(async () => {
@@ -25,13 +24,27 @@ describe('UpdateCustomerService', () => {
       customerRepository,
       hashProvider,
     );
-    customer = await customerRepository.create({
+
+    containerSpy.mockReturnValue(updateCustomerService);
+    await connection.clear();
+  });
+
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
+
+  it('should update customer', async () => {
+    const customer = await customerRepository.create({
       name: 'JhonDoe',
       email: 'jhon@jhon.com.br',
       password: '123456',
     });
 
-    token = jwt.sign(
+    const token = jwt.sign(
       { id: customer.id, name: 'jhondoe', email: 'jhondoe@gmail.com' },
       JwtConfig.secret,
       {
@@ -39,10 +52,6 @@ describe('UpdateCustomerService', () => {
       },
     );
 
-    containerSpy.mockReturnValue(updateCustomerService);
-  });
-
-  it('should update customer', async () => {
     const updateData = { name: 'Jane Doe Updated', password: '45231' };
     const response = await request(app)
       .patch(`/api/customers/${customer.id}`)
@@ -58,6 +67,20 @@ describe('UpdateCustomerService', () => {
   });
 
   it('should return not found', async () => {
+    const customer = await customerRepository.create({
+      name: 'JhonDoe',
+      email: 'jhon@jhon.com.br',
+      password: '123456',
+    });
+
+    const token = jwt.sign(
+      { id: customer.id, name: 'jhondoe', email: 'jhondoe@gmail.com' },
+      JwtConfig.secret,
+      {
+        expiresIn: JwtConfig.expireIn,
+      },
+    );
+
     const response = await request(app)
       .patch('/api/customers/doesnotexists')
       .set('Authorization', `Bearer ${token}`)

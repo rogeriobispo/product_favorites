@@ -1,20 +1,32 @@
 import AppError from '@shared/errors/AppErrors';
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import connection from '../../../../database/testDB';
+
+import CustomerRepository from '../../typeorm/repositories/CustomerRepository';
 import UpdateCustomerService from '../../services/UpdateCustomerService';
 import HashProvider from '../mocks/HashProviderMock';
 
 let updateCustomerService: UpdateCustomerService;
-let customerRepository: CustomerRepositoryMock;
+let customerRepository: CustomerRepository;
 let hashProvider: HashProvider;
 
 describe('UpdateCustomerService', () => {
-  beforeEach(() => {
-    customerRepository = new CustomerRepositoryMock();
+  beforeEach(async () => {
+    customerRepository = new CustomerRepository();
     hashProvider = new HashProvider();
     updateCustomerService = new UpdateCustomerService(
       customerRepository,
       hashProvider,
     );
+
+    await connection.clear();
+  });
+
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
   });
 
   it('should update customer', async () => {

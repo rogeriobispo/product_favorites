@@ -1,42 +1,53 @@
 import 'reflect-metadata';
+
 import request from 'supertest';
 import { container } from 'tsyringe';
 import { JwtConfig } from '@config/index';
 import jwt from 'jsonwebtoken';
 
 import app from '@server/app';
+import connection from '../../../../database/testDB';
 
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import CustomerRepository from '../../typeorm/repositories/CustomerRepository';
 import ShowCustomerService from '../../services/ShowCustomerService';
 import Customer from '../../typeorm/entities/Customer';
 
 let showCustomerService: ShowCustomerService;
-let customerRepository: CustomerRepositoryMock;
-let customer: Customer;
-let token: string;
+let customerRepository: CustomerRepository;
 
 describe('ShowCustomer', () => {
   beforeEach(async () => {
     const containerSpy = jest.spyOn(container, 'resolve');
-    customerRepository = new CustomerRepositoryMock();
+    customerRepository = new CustomerRepository();
     showCustomerService = new ShowCustomerService(customerRepository);
-    customer = await customerRepository.create({
+    containerSpy.mockReturnValue(showCustomerService);
+
+    await connection.clear();
+  });
+
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
+
+  it('should return an existente user', async () => {
+    const customer = await customerRepository.create({
       name: 'JhonDoe',
       email: 'jhon@jhon.com.br',
       password: '123456',
     });
 
-    token = jwt.sign(
+    const token = jwt.sign(
       { id: customer.id, name: 'jhondoe', email: 'jhondoe@gmail.com' },
       JwtConfig.secret,
       {
         expiresIn: JwtConfig.expireIn,
       },
     );
-    containerSpy.mockReturnValue(showCustomerService);
-  });
 
-  it('should return an existente user', async () => {
     const response = await request(app)
       .get(`/api/customers/${customer.id}`)
       .set('Authorization', `Bearer ${token}`)
@@ -50,6 +61,20 @@ describe('ShowCustomer', () => {
   });
 
   it('should throw an error when the user does not exists ', async () => {
+    const customer = await customerRepository.create({
+      name: 'JhonDoe',
+      email: 'jhon@jhon.com.br',
+      password: '123456',
+    });
+
+    const token = jwt.sign(
+      { id: customer.id, name: 'jhondoe', email: 'jhondoe@gmail.com' },
+      JwtConfig.secret,
+      {
+        expiresIn: JwtConfig.expireIn,
+      },
+    );
+
     const response = await request(app)
       .get('/api/customers/doesnotexists')
       .set('Authorization', `Bearer ${token}`)

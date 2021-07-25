@@ -1,17 +1,29 @@
 import AppError from '@shared/errors/AppErrors';
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import connection from '../../../../database/testDB';
+
+import CustomerRepository from '../../typeorm/repositories/CustomerRepository';
 import ShowCustomerService from '../../services/ShowCustomerService';
 
 let showCustomerService: ShowCustomerService;
-let customerRepository: CustomerRepositoryMock;
+let customerRepository: CustomerRepository;
 
-describe('DeleteCustomerService', () => {
-  beforeEach(() => {
-    customerRepository = new CustomerRepositoryMock();
+describe('ShowCustomerService', () => {
+  beforeEach(async () => {
+    customerRepository = new CustomerRepository();
     showCustomerService = new ShowCustomerService(customerRepository);
+
+    await connection.clear();
   });
 
-  it('should delete an existente user', async () => {
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
+
+  it('should show an existente user', async () => {
     const customerData = {
       name: 'John Doe',
       email: 'jhondoe@gmail.com',

@@ -28,7 +28,7 @@ class CustomersRepository implements ICustomerRepository {
   }
 
   async delete(customer: Customer): Promise<void> {
-    this.ormRepository.remove(customer);
+    await this.ormRepository.remove(customer);
   }
 
   findByEmail(email: string): Promise<Customer | undefined> {

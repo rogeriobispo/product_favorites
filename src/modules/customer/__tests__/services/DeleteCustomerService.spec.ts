@@ -1,20 +1,32 @@
 import AppError from '@shared/errors/AppErrors';
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import connection from '../../../../database/testDB';
+
+import CustomerRepository from '../../typeorm/repositories/CustomerRepository';
 import DeleteCustomerService from '../../services/DeleteCustomerService';
 
 let deleteCustomerService: DeleteCustomerService;
-let customerRepository: CustomerRepositoryMock;
+let customerRepository: CustomerRepository;
 
 describe('DeleteCustomerService', () => {
-  beforeEach(() => {
-    customerRepository = new CustomerRepositoryMock();
+  beforeEach(async () => {
+    customerRepository = new CustomerRepository();
     deleteCustomerService = new DeleteCustomerService(customerRepository);
+
+    await connection.clear();
+  });
+
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
   });
 
   it('should delete an existente user', async () => {
     const customerData = {
-      name: 'John Doe',
-      email: 'jhondoe@gmail.com',
+      name: 'John Doe Delete',
+      email: 'jhondoedelete@gmail.com',
       password: '123456',
     };
 
@@ -22,12 +34,14 @@ describe('DeleteCustomerService', () => {
 
     const response = await deleteCustomerService.perform(customer.id);
 
+    const customerDeleted = await customerRepository.findByEmail(
+      'jhondoedelete@gmail.com',
+    );
+
     expect(response).toEqual(true);
-    expect(
-      await customerRepository.findByEmail('jhondoe@gmail.com'),
-    ).toBeUndefined();
+    expect(customerDeleted).toBeUndefined();
   });
-  it('should throw an error when the user does not exists ', async () => {
+  it('should throw an error when the customer does not exists ', async () => {
     await expect(
       deleteCustomerService.perform('doesnotexists'),
     ).rejects.toBeInstanceOf(AppError);

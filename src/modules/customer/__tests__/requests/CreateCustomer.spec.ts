@@ -4,16 +4,17 @@ import { container } from 'tsyringe';
 
 import app from '@server/app';
 import CreateCustomerService from '@modules/customer/services/CreateCustomerService';
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import connection from '../../../../database/testDB';
+import CustomerRepository from '../../typeorm/repositories/CustomerRepository';
 import HashProvider from '../mocks/HashProviderMock';
 
 let createCustomer: CreateCustomerService;
-let customerRepository: CustomerRepositoryMock;
+let customerRepository: CustomerRepository;
 let hashProvider: HashProvider;
 describe('CreateCustomer', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     const containerSpy = jest.spyOn(container, 'resolve');
-    customerRepository = new CustomerRepositoryMock();
+    customerRepository = new CustomerRepository();
     hashProvider = new HashProvider();
     createCustomer = new CreateCustomerService(
       customerRepository,
@@ -21,6 +22,16 @@ describe('CreateCustomer', () => {
     );
 
     containerSpy.mockReturnValue(createCustomer);
+
+    await connection.clear();
+  });
+
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
   });
 
   describe('perform', () => {
