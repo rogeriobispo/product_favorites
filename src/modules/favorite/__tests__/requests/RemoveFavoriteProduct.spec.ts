@@ -1,34 +1,37 @@
 import 'reflect-metadata';
+
 import { container } from 'tsyringe';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 
 import app from '@server/app';
 import { JwtConfig } from '@config/index';
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import connection from '../../../../database/testDB';
+import CustomerRepository from '../../typeorm/repositories/CustomerRepository';
 import RemoveFavoriteProductsService from '../../services/RemoveFavoriteProductsService';
-import FavoriteProductsRepositoryMock from '../mocks/FavoriteProductsRepositoriesMock';
+import FavoriteProductsRepositoryMock from '../../typeorm/repositories/FavoriteProductsRepository';
 import Customer from '../../typeorm/entities/Customer';
 
 let removeFavoriteProductsService: RemoveFavoriteProductsService;
 let favoriteProductsRepositoryMock: FavoriteProductsRepositoryMock;
-let customerRepositoryMock: CustomerRepositoryMock;
+let customerRepository: CustomerRepository;
 let customer: Customer;
 let token: string;
 
 describe('RemoveFavoriteProductsService', () => {
   beforeEach(async () => {
     const containerSpy = jest.spyOn(container, 'resolve');
-    customerRepositoryMock = new CustomerRepositoryMock();
+    customerRepository = new CustomerRepository();
     favoriteProductsRepositoryMock = new FavoriteProductsRepositoryMock();
     removeFavoriteProductsService = new RemoveFavoriteProductsService(
       favoriteProductsRepositoryMock,
     );
 
-    customer = await customerRepositoryMock.create({
+    customer = await customerRepository.create({
       name: 'JhonDoe',
       email: 'jhon@jhon.com.br',
       password: '123456',
+      productFavoriteLimite: 10,
     });
 
     token = jwt.sign(
@@ -40,6 +43,15 @@ describe('RemoveFavoriteProductsService', () => {
     );
 
     containerSpy.mockReturnValue(removeFavoriteProductsService);
+    await connection.clear();
+  });
+
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
   });
 
   it('with a invalid token must be unautorized', async () => {

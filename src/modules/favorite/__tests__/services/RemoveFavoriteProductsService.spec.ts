@@ -1,18 +1,28 @@
 import AppError from '@shared/errors/AppErrors';
+import connection from '../../../../database/testDB';
+
 import RemoveFavoriteProductsService from '../../services/RemoveFavoriteProductsService';
-import FavoriteProductsRepositoryMock from '../mocks/FavoriteProductsRepositoriesMock';
+import FavoriteProductsRepositoryMock from '../../typeorm/repositories/FavoriteProductsRepository';
 
 let removeFavoriteProductsService: RemoveFavoriteProductsService;
 let favoriteProductsRepositoryMock: FavoriteProductsRepositoryMock;
 
 describe('RemoveFavoriteProductsService', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     favoriteProductsRepositoryMock = new FavoriteProductsRepositoryMock();
     removeFavoriteProductsService = new RemoveFavoriteProductsService(
       favoriteProductsRepositoryMock,
     );
+    await connection.clear();
   });
 
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
   it('should remove favorite products with the customer and the product is favorited', async () => {
     const favoriteRepoMockSpy = jest.spyOn(
       favoriteProductsRepositoryMock,

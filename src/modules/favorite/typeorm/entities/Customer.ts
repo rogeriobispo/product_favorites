@@ -5,6 +5,15 @@ class Customers {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
+  @Column('varchar')
+  name: string;
+
+  @Column('varchar')
+  email: string;
+
+  @Column('varchar')
+  password: string;
+
   @Column('int')
   productFavoriteLimite: number;
 }

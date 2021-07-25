@@ -1,4 +1,5 @@
 const { DBConfig } = require('./src/shared/config');
+const { NODE_ENV } = process.env
 
 const {
   host,
@@ -11,10 +12,10 @@ const {
   cli,
 } = DBConfig;
 
-console.log(`Runging migration on enviroment: ${process.env.NODE_ENV}, database: ${database}`);
+if(NODE_ENV !== 'test') console.log(`Runging migration on enviroment: ${process.env.NODE_ENV}, database: ${database}`);
 
-module.exports = {
-  type: 'postgres',
+const postgres = {
+  type:  'postgres',
   host,
   port,
   username,
@@ -24,3 +25,16 @@ module.exports = {
   migrations,
   cli,
 };
+
+const sqlite = {
+  type:  'sqlite',
+  database: ':memory:',
+  synchronize: true,
+  logging: false,
+  entities,
+  migrations,
+  cli,
+}
+
+module.exports = NODE_ENV === 'test' ? sqlite :  postgres;
+

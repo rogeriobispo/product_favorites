@@ -8,3 +8,10 @@ yarn-error.log
 # except the following files
 !src/shared/env/.env.test
 !src/shared/env/.env.sample
+
+
+# exclude everything
+testDB/*
+
+# exception to the rule
+!testDB/.gitkeep
