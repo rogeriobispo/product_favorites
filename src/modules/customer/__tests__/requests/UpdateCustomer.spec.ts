@@ -67,6 +67,20 @@ describe('UpdateCustomerService', () => {
   });
 
   it('should update customer with put', async () => {
+    const customer = await customerRepository.create({
+      name: 'JhonDoe',
+      email: 'jhon@jhon.com.br',
+      password: '123456',
+    });
+
+    const token = jwt.sign(
+      { id: customer.id, name: 'jhondoe', email: 'jhondoe@gmail.com' },
+      JwtConfig.secret,
+      {
+        expiresIn: JwtConfig.expireIn,
+      },
+    );
+
     const updateData = { name: 'Jane Doe Updated', password: '45231' };
     const response = await request(app)
       .put(`/api/customers/${customer.id}`)
