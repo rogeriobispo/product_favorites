@@ -20,6 +20,9 @@ class Customers {
 
   @Column('varchar')
   password!: string;
+
+  @Column('int')
+  productFavoriteLimite!: number;
 }
 
 export default Customers;

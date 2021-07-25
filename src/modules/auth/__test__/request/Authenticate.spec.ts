@@ -1,39 +1,51 @@
 import 'reflect-metadata';
+
 import { container } from 'tsyringe';
 import app from '@server/app';
 import request from 'supertest';
+import connection from '../../../../database/testDB';
 
 import AuthenticateCustomerService from '../../services/AuthenticateCustomerService';
-import CustomerRepositoryMock from '../mocks/CustomerRepositoryMock';
+import CustomerRepository from '../../typeorm/repositories/CustomerRepositories';
 import JsonWebTokenProviderMock from '../mocks/JsonWebTokenProviderMock';
 import HashProviderMock from '../mocks/HashProviderMock';
 
 let authenticateCustomerService: AuthenticateCustomerService;
-let customerRepositoryMock: CustomerRepositoryMock;
+let customerRepository: CustomerRepository;
 let hashProviderMock: HashProviderMock;
 let jsonWebTokenProviderMock: JsonWebTokenProviderMock;
 
 describe('Athentication', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     const containerSpy = jest.spyOn(container, 'resolve');
-    customerRepositoryMock = new CustomerRepositoryMock();
+    customerRepository = new CustomerRepository();
     hashProviderMock = new HashProviderMock();
     jsonWebTokenProviderMock = new JsonWebTokenProviderMock();
 
     authenticateCustomerService = new AuthenticateCustomerService(
-      customerRepositoryMock,
+      customerRepository,
       hashProviderMock,
       jsonWebTokenProviderMock,
     );
     containerSpy.mockReturnValue(authenticateCustomerService);
+    await connection.clear();
+  });
+
+  beforeAll(async () => {
+    await connection.create();
+  });
+
+  afterAll(async () => {
+    await connection.close();
   });
 
   describe('POST /authenticate', () => {
     it('when the user exists and password is right', async () => {
-      const customer = await customerRepositoryMock.create({
+      const customer = await customerRepository.create({
         name: 'JhonDoe',
         email: 'jhondoe@jhondoe.com',
         password: '123456',
+        productFavoriteLimite: 10,
       });
 
       const response = await request(app)
@@ -50,10 +62,11 @@ describe('Athentication', () => {
       });
     });
     it('when the user exists and password is wrong', async () => {
-      await customerRepositoryMock.create({
+      await customerRepository.create({
         name: 'JhonDoe',
         email: 'jhon@jhon.com.br',
         password: '123456',
+        productFavoriteLimite: 10,
       });
 
       const response = await request(app)
